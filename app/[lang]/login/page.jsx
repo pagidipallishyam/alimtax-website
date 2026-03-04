@@ -29,6 +29,7 @@ export default function LoginPage() {
         sent: "Verification email sent!",
         invalid: "Invalid email or password",
         ok: "Login successful! Opening your portal in a new tab...",
+        home: "Back to Home", // ✅ added
         // Forgot password
         forgot: "Forgot password?",
         resetTitle: "Reset Password",
@@ -52,6 +53,7 @@ export default function LoginPage() {
         sent: "Письмо отправлено!",
         invalid: "Неверный email или пароль",
         ok: "Вход успешен! Открываем ваш кабинет в новой вкладке...",
+        home: "На главную", // ✅ added
         // Forgot password
         forgot: "Забыли пароль?",
         resetTitle: "Сброс пароля",
@@ -155,6 +157,16 @@ export default function LoginPage() {
 
   return (
     <div className="authWrap">
+      {/* ✅ TOP BAR + BACK TO HOME */}
+      <div className="topBar">
+        <div className="brand" onClick={() => router.push(`/${lang}`)}>
+          ALIM TAX
+        </div>
+        <button className="homeBtn" onClick={() => router.push(`/${lang}`)}>
+          {t.home}
+        </button>
+      </div>
+
       <div className="authCard">
         <h1>{t.title}</h1>
 
@@ -290,7 +302,42 @@ export default function LoginPage() {
           align-items: center;
           background: linear-gradient(135deg, #0b2b3a, #0a2432);
           padding: 20px;
+          position: relative; /* ✅ for top bar */
         }
+
+        /* ✅ TOP BAR */
+        .topBar {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 72px;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 0 34px;
+          z-index: 10;
+        }
+        .brand {
+          color: #fff;
+          font-weight: 900;
+          letter-spacing: 0.6px;
+          cursor: pointer;
+          user-select: none;
+        }
+        .homeBtn {
+          padding: 10px 14px;
+          border-radius: 999px;
+          border: 1px solid rgba(255, 255, 255, 0.35);
+          background: rgba(255, 255, 255, 0.12);
+          color: #fff;
+          font-weight: 900;
+          cursor: pointer;
+        }
+        .homeBtn:hover {
+          background: rgba(255, 255, 255, 0.18);
+        }
+
         .authCard {
           background: #fff;
           padding: 40px;
@@ -470,6 +517,16 @@ export default function LoginPage() {
           to {
             transform: scale(1);
             opacity: 1;
+          }
+        }
+
+        /* ✅ mobile spacing so top bar doesn't overlap */
+        @media (max-width: 520px) {
+          .topBar {
+            padding: 0 16px;
+          }
+          .authCard {
+            padding: 28px;
           }
         }
       `}</style>
