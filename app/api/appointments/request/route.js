@@ -1,4 +1,4 @@
-import { db } from "@/lib/firebaseAdmin";
+import { db } from "../../../../lib/firebaseAdmin";
 
 export async function POST(request) {
   const body = await request.json().catch(() => ({}));

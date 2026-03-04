@@ -7,7 +7,7 @@ import {
   sendEmailVerification,
   signOut,
 } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { auth, db } from "../../../lib/firebase";
 
 export default function VerifyEmailPage() {
   const params = useParams();
