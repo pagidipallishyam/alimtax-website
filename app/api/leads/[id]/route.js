@@ -7,20 +7,28 @@ export async function PATCH(request, { params }) {
   try {
     await requireAdmin(request);
 
-    const body = await request.json().catch(() => ({}));
-    const { status } = body;
-    const allowed = ["NEW", "IN_PROGRESS", "DONE"];
-    if (!allowed.includes(status)) {
-      return Response.json({ error: "Invalid status" }, { status: 400 });
-    }
+    const { id } = params || {};
+    if (!id) return Response.json({ error: "Missing lead id" }, { status: 400 });
 
-    await db.collection("leads").doc(params.id).update({
+    const body = await request.json().catch(() => ({}));
+    const status = String(body?.status || "").toUpperCase();
+    if (!status) return Response.json({ error: "Missing status" }, { status: 400 });
+
+    await db.collection("leads").doc(id).update({
       status,
-      updatedAt: new Date(),
+      updatedAt: new Date(), // keep simple (no firebase-admin FieldValue needed)
     });
 
-    return Response.json({ ok: true });
+    return Response.json({ success: true });
   } catch (e) {
-    return Response.json({ error: e.message }, { status: 401 });
+    console.error("PATCH /api/leads/[id] error:", e);
+    // ✅ return correct codes
+    const msg = e?.message || "Unauthorized";
+    const code =
+      msg.includes("Missing token") || msg.includes("Admin") || msg.includes("Forbidden")
+        ? 401
+        : 500;
+
+    return Response.json({ error: msg }, { status: code });
   }
 }

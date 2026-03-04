@@ -69,6 +69,7 @@ const NAV = [
   { label: "Users", href: "/admin/users", icon: "users" },
   { label: "Documents", href: "/admin/documents", icon: "file" },
   { label: "Support", href: "/admin/support", icon: "help" }, // ✅ NEW
+  { label: "Leads", href: "/admin/leads", icon: "file" },
   { label: "Settings", href: "/admin/settings", icon: "settings" },
 ];
 
